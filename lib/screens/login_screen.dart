@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_declarations, prefer_const_constructors
 
+import 'package:chat_room/screens/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -99,8 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       final loginUser = await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: email, password: password);
-
                       print("User Login Successfully");
+
+                      //Navigate to Chat Page
+                      Navigator.pushNamed(context, ChatScreen.id);
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                         print('No user found for that email.');
