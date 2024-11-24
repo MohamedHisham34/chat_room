@@ -62,7 +62,9 @@ class _TestingState extends State<Testing> {
             );
           },
           stream: _usersStream,
-        )
+        ));
+  }
+}
 
 // To FETCH THE DOCUMENT DATA IN THE DEBUG CONSOLE
 //========================================================
@@ -99,6 +101,3 @@ class _TestingState extends State<Testing> {
 //     }
 //   },
 // ),
-        );
-  }
-}

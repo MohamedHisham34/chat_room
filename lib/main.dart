@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
           return Text("Loading");
         },
       ),
-      initialRoute: Testing.id,
+      initialRoute: WelcomeScreen.id,
       routes: {
         //WelcomeScreen Route
         WelcomeScreen.id: (context) => WelcomeScreen(),

@@ -101,7 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           .signInWithEmailAndPassword(
                               email: email, password: password);
                       print("User Login Successfully");
-
                       //Navigate to Chat Page
                       Navigator.pushNamed(context, ChatScreen.id);
                     } on FirebaseAuthException catch (e) {
