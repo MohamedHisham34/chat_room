@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures
+// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures, curly_braces_in_flow_control_structures
 
 import 'dart:async';
 import 'dart:ffi';
@@ -64,28 +64,55 @@ class _ChatScreenState extends State<ChatScreen> {
                 if (snapshot.hasError) {
                   return Text("Error Getting documents");
                 }
+
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Text("Loading");
                 }
+
                 return ListView.builder(
                   itemCount: snapshot.data?.docs.length,
                   itemBuilder: (context, index) {
-                    try {
+                    // Checking If the Message Send By The Current User
+                    if (snapshot.data?.docs[index]['sender'] ==
+                        auth.currentUser?.email) {
+                      //Viewing The Message with Right alignment
+                      // (If the Current User Send This Message)
                       return Card(
                         child: ListTile(
-                          title: Text(
+                          title: Align(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              //Viewing Messages Content
+                              "${snapshot.data?.docs[index]["messageContent"]}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          //Viewing Messages Sender (Email)
+                          subtitle: Align(
+                            alignment: Alignment.centerRight,
+                            child:
+                                Text("${snapshot.data?.docs[index]["sender"]}"),
+                          ),
+                        ),
+                      );
+                    }
+                    //Viewing The Message with Left alignment
+                    // (If Not The Current User Send This Message)
+                    return Card(
+                      child: ListTile(
+                        title: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
                             //Viewing Messages Content
                             "${snapshot.data?.docs[index]["messageContent"]}",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
-                          //Viewing Messages Sender (Email)
-                          subtitle:
-                              Text("${snapshot.data?.docs[index]["sender"]}"),
                         ),
-                      );
-                    } catch (e) {
-                      print(e);
-                    }
+                        //Viewing Messages Sender (Email)
+                        subtitle:
+                            Text("${snapshot.data?.docs[index]["sender"]}"),
+                      ),
+                    );
                   },
                 );
               },

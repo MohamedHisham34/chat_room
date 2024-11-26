@@ -9,6 +9,7 @@ import 'package:chat_room/screens/testing_firebase_functions.dart';
 import 'package:chat_room/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_room/screens/test.dart';
 
 void main() async {
   // Firebase Connection
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
           return Text("Loading");
         },
       ),
-      initialRoute: WelcomeScreen.id,
+      initialRoute: ChatScreen.id,
       routes: {
         //WelcomeScreen Route
         WelcomeScreen.id: (context) => WelcomeScreen(),
@@ -50,7 +51,8 @@ class MyApp extends StatelessWidget {
         //Chat Screen
         ChatScreen.id: (context) => ChatScreen(),
         //Test Page
-        Testing.id: (context) => Testing()
+        Testing.id: (context) => Testing(),
+        Cardtest.id: (context) => Cardtest()
       },
     );
   }
