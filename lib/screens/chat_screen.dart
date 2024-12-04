@@ -2,7 +2,8 @@
 
 import 'dart:async';
 import 'dart:ffi';
-
+import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
+import 'package:chat_room/components/message_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,8 +31,10 @@ String? messageContent;
 
 class _ChatScreenState extends State<ChatScreen> {
   //Messages Stream
-  final Stream<QuerySnapshot> messageStream =
-      FirebaseFirestore.instance.collection('Messages').snapshots();
+  final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
+      .collection('Messages')
+      .orderBy('timestamp')
+      .snapshots();
 
 // Execute getCurrentUser At The Start of Screen
   @override
@@ -77,42 +80,22 @@ class _ChatScreenState extends State<ChatScreen> {
                         auth.currentUser?.email) {
                       //Viewing The Message with Right alignment
                       // (If the Current User Send This Message)
-                      return Card(
-                        child: ListTile(
-                          title: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              //Viewing Messages Content
-                              "${snapshot.data?.docs[index]["messageContent"]}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          //Viewing Messages Sender (Email)
-                          subtitle: Align(
-                            alignment: Alignment.centerRight,
-                            child:
-                                Text("${snapshot.data?.docs[index]["sender"]}"),
-                          ),
-                        ),
-                      );
+
+                      return message_bubble(
+                          snapshotSender: snapshot.data?.docs[index]['sender'],
+                          snapshotMessageContent: snapshot.data?.docs[index]
+                              ['messageContent'],
+                          isSender: true,
+                          color: Colors.blue);
                     }
                     //Viewing The Message with Left alignment
                     // (If Not The Current User Send This Message)
-                    return Card(
-                      child: ListTile(
-                        title: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            //Viewing Messages Content
-                            "${snapshot.data?.docs[index]["messageContent"]}",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        //Viewing Messages Sender (Email)
-                        subtitle:
-                            Text("${snapshot.data?.docs[index]["sender"]}"),
-                      ),
-                    );
+                    return message_bubble(
+                        snapshotSender: snapshot.data?.docs[index]['sender'],
+                        snapshotMessageContent: snapshot.data?.docs[index]
+                            ['messageContent'],
+                        isSender: false,
+                        color: Colors.grey);
                   },
                 );
               },
@@ -125,7 +108,7 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
                   child: TextField(
@@ -141,7 +124,8 @@ class _ChatScreenState extends State<ChatScreen> {
                     FirebaseFirestore.instance.collection("Messages").add(
                       {
                         "messageContent": messageContent,
-                        "sender": "${loggedInUser?.email}"
+                        "sender": "${loggedInUser?.email}",
+                        "timestamp": FieldValue.serverTimestamp()
                       },
                     );
                   },

@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:chat_room/firebase_options.dart';
+import 'package:chat_room/screens/create_room_screen.dart';
+import 'package:chat_room/screens/join_room_screen.dart';
+import 'package:chat_room/screens/rooms_screen.dart';
 import 'package:chat_room/screens/testing_firebase_functions.dart';
 import 'package:chat_room/screens/chat_screen.dart';
 import 'package:chat_room/screens/login_screen.dart';
@@ -39,7 +42,7 @@ class MyApp extends StatelessWidget {
           return Text("Loading");
         },
       ),
-      initialRoute: ChatScreen.id,
+      initialRoute: Cardtest.id,
       routes: {
         //WelcomeScreen Route
         WelcomeScreen.id: (context) => WelcomeScreen(),
@@ -52,7 +55,14 @@ class MyApp extends StatelessWidget {
         ChatScreen.id: (context) => ChatScreen(),
         //Test Page
         Testing.id: (context) => Testing(),
-        Cardtest.id: (context) => Cardtest()
+        Cardtest.id: (context) => Cardtest(),
+
+        //Rooms Screen
+        RoomsScreen.id: (context) => RoomsScreen(),
+        // Create Room
+        CreateRoomScreen.id: (context) => CreateRoomScreen(),
+        // Join Room
+        JoinRoomScreen.id: (context) => JoinRoomScreen(),
       },
     );
   }
