@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           return Text("Loading");
         },
       ),
-      initialRoute: Cardtest.id,
+      initialRoute: RoomsScreen.id,
       routes: {
         //WelcomeScreen Route
         WelcomeScreen.id: (context) => WelcomeScreen(),
@@ -52,7 +52,6 @@ class MyApp extends StatelessWidget {
         RegistrationScreen.id: (context) => RegistrationScreen(),
 
         //Chat Screen
-        ChatScreen.id: (context) => ChatScreen(),
         //Test Page
         Testing.id: (context) => Testing(),
         Cardtest.id: (context) => Cardtest(),
