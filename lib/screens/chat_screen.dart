@@ -1,14 +1,10 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_brace_in_string_interps, await_only_futures, curly_braces_in_flow_control_structures
+// ignore_for_file: prefer_const_constructors
 
-import 'dart:async';
-import 'dart:ffi';
-import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:chat_room/components/message_bubble.dart';
+import 'package:chat_room/screens/create_room_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 //Firebase Firestore Services
 final db = FirebaseFirestore.instance;
@@ -19,26 +15,20 @@ final auth = FirebaseAuth.instance;
 // This ("loggenInUser") Is Future Value Of Current User
 User? loggedInUser;
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key, required this.userId});
+class ChatScreenTest extends StatefulWidget {
+  const ChatScreenTest(
+      {super.key, required this.userId, required this.roomNumber});
 
   final String userId;
-  //Screen id For Routes
-  static final String id = "ChatPage";
+  final String roomNumber;
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatScreenTest> createState() => _ChatScreenTestState();
 }
 
 String? messageContent;
 
-class _ChatScreenState extends State<ChatScreen> {
-  //Messages Stream
-  final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
-      .collection('Messages')
-      .orderBy('timestamp')
-      .snapshots();
-
 // Execute getCurrentUser At The Start of Screen
+class _ChatScreenTestState extends State<ChatScreenTest> {
   @override
   void initState() {
     getCurrentUser();
@@ -57,11 +47,37 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+//Messages Stream
+  final Stream<QuerySnapshot> messageStream = FirebaseFirestore.instance
+      .collection('Rooms')
+      .doc(roomNumber)
+      .collection("Messages")
+      .orderBy('timestamp')
+      .snapshots();
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> roomMembers =
+      FirebaseFirestore.instance
+          .collection("Rooms")
+          .doc(roomNumber)
+          .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Title'),
+      ),
       body: Column(
         children: [
+          Expanded(
+            child: StreamBuilder(
+              stream: roomMembers,
+              builder: (context, snapshot) {
+                return Text("${snapshot.data?['isCompleted']}");
+              },
+            ),
+          ),
+          //Room Number
+          Text(widget.roomNumber),
           Expanded(
             child: StreamBuilder(
               stream: messageStream,
@@ -122,14 +138,15 @@ class _ChatScreenState extends State<ChatScreen> {
                 TextButton(
                   onPressed: () {
                     //Adding User Messages to FireBase DataBase
-                    print(loggedInUser?.email);
-                    FirebaseFirestore.instance.collection("Messages").add(
-                      {
-                        "messageContent": messageContent,
-                        "sender": "${loggedInUser?.email}",
-                        "timestamp": FieldValue.serverTimestamp()
-                      },
-                    );
+                    FirebaseFirestore.instance
+                        .collection("Rooms")
+                        .doc("${widget.roomNumber}")
+                        .collection("Messages")
+                        .add({
+                      "messageContent": messageContent,
+                      "sender": "${loggedInUser?.email}",
+                      "timestamp": FieldValue.serverTimestamp()
+                    });
                   },
                   child: Text(
                     'Send',

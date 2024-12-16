@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_declarations, prefer_const_constructors
 
+import 'package:chat_room/constants/text_field_decoration.dart';
 import 'package:chat_room/screens/chat_screen.dart';
+import 'package:chat_room/screens/rooms_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -20,71 +22,77 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
+      body: SafeArea(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-              height: 48.0,
-            ),
-            TextField(
-              style: TextStyle(color: Colors.black),
-              onChanged: (value) {
-                email = value;
-              },
-              decoration: InputDecoration(
-                hintStyle: TextStyle(color: Colors.grey),
-                hintText: 'Enter your email',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
+            ClipPath(
+              clipper: WaveClipper(),
+              child: Container(
+                height: 200,
+                color: Colors.orange,
               ),
             ),
+            SizedBox(
+              height: 50.0,
+            ),
+            Text(
+              textAlign: TextAlign.center,
+              'Welcome',
+              style: TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              textAlign: TextAlign.center,
+              'Login To Your Account',
+              style: TextStyle(
+                color: Colors.orange,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+            TextField(
+                style: TextStyle(color: Colors.black),
+                onChanged: (value) {
+                  email = value;
+                },
+                decoration: TextFieldDecoration),
             SizedBox(
               height: 8.0,
             ),
             TextField(
-              style: TextStyle(color: Colors.black),
-              onChanged: (value) {
-                password = value;
-              },
-              decoration: InputDecoration(
-                hintStyle: TextStyle(color: Colors.grey),
-                hintText: 'Enter your password.',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                ),
-              ),
-            ),
+                style: TextStyle(color: Colors.black),
+                onChanged: (value) {
+                  password = value;
+                },
+                decoration: TextFieldDecoration),
             SizedBox(
               height: 24.0,
+            ),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Checkbox(
+                    value: true,
+                    onChanged: (value) {},
+                  ),
+                  Text("Remember me"),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Forget Password?",
+                      style: TextStyle(color: Colors.orange),
+                    ),
+                  ),
+                ],
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -101,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               email: email, password: password);
                       print("User Login Successfully");
                       //Navigate to Chat Page
-                      Navigator.pushNamed(context, ChatScreen.id);
+                      Navigator.pushNamed(context, RoomsScreen.id);
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                         print('No user found for that email.');
@@ -113,14 +121,59 @@ class _LoginScreenState extends State<LoginScreen> {
                   minWidth: 200.0,
                   height: 42.0,
                   child: Text(
-                    'Log In',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    'Login',
                   ),
                 ),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Do not Have Account'),
+                SizedBox(
+                  width: 5,
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),
     );
   }
+}
+
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 50);
+    var firstControlPoint = Offset(size.width / 4, size.height);
+    var firstEndPoint = Offset(size.width / 2, size.height - 50);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstEndPoint.dx, firstEndPoint.dy);
+
+    var secondControlPoint = Offset(size.width * 3 / 4, size.height - 100);
+    var secondEndPoint = Offset(size.width, size.height - 50);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondEndPoint.dx, secondEndPoint.dy);
+
+    path.lineTo(size.width, 0);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

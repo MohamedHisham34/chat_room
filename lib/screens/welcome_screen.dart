@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
+import 'package:chat_room/components/round_button.dart';
 import 'package:chat_room/screens/login_screen.dart';
 import 'package:chat_room/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,54 +17,63 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Row(
+      body: Container(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/background.jpg'),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    color: Colors.red,
-                    width: 100,
-                    height: 100,
+                    child: Image.asset('images/Logo.png'),
+                    width: 300,
+                    height: 300,
                   ),
-                  SizedBox(
-                    width: 20,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
+                      ),
+                    ],
                   ),
-                  Text(
-                    "Chat Room",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: MaterialButton(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      onPressed: () {
+                        //Navigate (Push) to Login Screen
+                        Navigator.pushNamed(context, LoginScreen.id);
+                      },
+                      color: Colors.blue,
+                      textColor: Colors.white,
+                      child: Text("Login"),
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: roundButton(
+                      textColor: Colors.white,
+                      function: () {
+                        Navigator.pushNamed(context, RegistrationScreen.id);
+                      },
+                      buttontext: "Register",
+                      color: Colors.orange,
+                    ),
+                  )
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //Navigate (Push) to Login Screen
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  color: Colors.red,
-                  textColor: Colors.white,
-                  child: Text("Login"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: MaterialButton(
-                  //Navigate (Push) to Registration Screen
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  color: Colors.red,
-                  textColor: Colors.white,
-                  child: Text("Register"),
-                ),
-              )
-            ],
+            ),
           ),
         ),
       ),

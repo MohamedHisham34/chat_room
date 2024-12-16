@@ -5,10 +5,8 @@ import 'package:chat_room/screens/create_room_screen.dart';
 import 'package:chat_room/screens/join_room_screen.dart';
 import 'package:chat_room/screens/rooms_screen.dart';
 import 'package:chat_room/screens/testing_firebase_functions.dart';
-import 'package:chat_room/screens/chat_screen.dart';
 import 'package:chat_room/screens/login_screen.dart';
 import 'package:chat_room/screens/registration_screen.dart';
-import 'package:chat_room/screens/testing_firebase_functions.dart';
 import 'package:chat_room/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +40,7 @@ class MyApp extends StatelessWidget {
           return Text("Loading");
         },
       ),
-      initialRoute: RoomsScreen.id,
+      initialRoute: WelcomeScreen.id,
       routes: {
         //WelcomeScreen Route
         WelcomeScreen.id: (context) => WelcomeScreen(),

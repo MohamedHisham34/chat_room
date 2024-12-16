@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:chat_room/screens/rooms_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -102,10 +103,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         email: email,
                         password: password,
                       );
-                      FirebaseFirestore.instance
-                          .collection("Users")
-                          .doc(_auth.currentUser?.uid)
-                          .set({"uEmail": _auth.currentUser?.email});
+                      Navigator.pushNamed(context, RoomsScreen.id);
 
                       print("User Created Successfully");
                     } on FirebaseAuthException catch (e) {

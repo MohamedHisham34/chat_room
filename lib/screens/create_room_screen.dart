@@ -1,7 +1,9 @@
-// ignore_for_file: prefer_const_declarations, unnecessary_string_interpolations
+// ignore_for_file: prefer_const_declarations, unnecessary_string_interpolations, prefer_const_constructors
 
+import 'package:chat_room/components/round_button.dart';
+import 'package:chat_room/constants/Colors.dart';
 import 'package:chat_room/screens/chat_screen.dart';
-import 'package:chat_room/screens/chat_screen_test.dart';
+import 'package:chat_room/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import 'dart:math';
 
 FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
-String roomNumber = 333444.toString();
+String roomNumber = Random().nextInt(999999).toString();
 String? rName;
 User? loggedInUser;
 
@@ -58,39 +60,72 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PrimaryBlueColor,
       body: SafeArea(
-        child: Column(children: [
-          Text(roomNumber),
-          TextField(
-            onChanged: (value) {
-              rName = value;
-            },
-            decoration: InputDecoration(
-              hintText: "Room Name",
-              hintStyle: TextStyle(
-                color: Colors.grey.withOpacity(0.7),
+        child:
+            Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          Container(
+            width: double.infinity,
+            height: 250,
+            child: Image.asset('images/Logo-White.png'),
+          ),
+          Text(
+            "Room Number",
+            textAlign: TextAlign.center,
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.black, width: 5),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              width: double.infinity,
+              child: Center(
+                  child: Text(
+                roomNumber,
+                style: TextStyle(fontSize: 35, letterSpacing: 10),
+              )),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: TextField(
+              keyboardType: TextInputType.number,
+              onChanged: (value) {
+                rName = value;
+              },
+              decoration: InputDecoration(
+                hintText: "Room Name",
+                hintStyle: TextStyle(
+                  color: Colors.white.withOpacity(0.7),
+                ),
               ),
             ),
           ),
-          MaterialButton(
-            color: Colors.red,
-            onPressed: () {
-              db
-                  .collection("Rooms")
-                  .doc(roomNumber)
-                  .set({"rName": rName, "isCompleted": false});
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: roundButton(
+                buttontext: "Create Room",
+                color: PrimaryOrangeColor,
+                function: () {
+                  db
+                      .collection("Rooms")
+                      .doc(roomNumber)
+                      .set({"rName": rName, "isCompleted": false});
 
-              Navigator.push(context, MaterialPageRoute(
-                builder: (context) {
-                  return ChatScreenTest(
-                    userId: "${loggedInUser?.uid}",
-                    roomNumber: roomNumber,
-                  );
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return ChatScreenTest(
+                        userId: "${loggedInUser?.uid}",
+                        roomNumber: roomNumber,
+                      );
+                    },
+                  ));
                 },
-              ));
-            },
-            child: Text("Create Room"),
-          ),
+                textColor: Colors.white),
+          )
         ]),
       ),
     );
