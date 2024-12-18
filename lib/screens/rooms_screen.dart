@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:chat_room/components/round_button.dart';
+import 'package:chat_room/main.dart';
 import 'package:chat_room/screens/create_room_screen.dart';
 import 'package:chat_room/screens/join_room_screen.dart';
+import 'package:chat_room/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class RoomsScreen extends StatelessWidget {
@@ -50,9 +52,18 @@ class RoomsScreen extends StatelessWidget {
                 ),
               ],
             ),
+            roundButton(
+                buttontext: "Sign Out",
+                color: Colors.black,
+                function: () {
+                  print("Done");
+                  Uauth.signOut();
+                  Navigator.pushNamed(context, WelcomeScreen.id);
+                },
+                textColor: Colors.white),
             Container(
               width: double.infinity,
-              height: 300,
+              height: 250,
               child: Image.asset('images/person.png'),
             )
           ],

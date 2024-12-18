@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_declarations, prefer_const_constructors
 
 import 'package:chat_room/constants/text_field_decoration.dart';
-import 'package:chat_room/screens/chat_screen.dart';
 import 'package:chat_room/screens/rooms_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late String email;
   late String password;
-  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {

@@ -1,11 +1,14 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:chat_room/components/round_button.dart';
+import 'package:chat_room/constants/Colors.dart';
 import 'package:chat_room/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pinput/pinput.dart';
 
 final db = FirebaseFirestore.instance;
 final auth = FirebaseAuth.instance;
@@ -65,7 +68,7 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
           //Navigate to the Chat Screen
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return ChatScreenTest(
+              return ChatScreen(
                   userId: "${loggedInUser?.uid}", roomNumber: "${roomNumber}");
             },
           ));
@@ -81,30 +84,97 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: PrimaryBlueColor,
       appBar: AppBar(
-        title: const Text('Join Room'),
+        centerTitle: true,
+        backgroundColor: PrimaryWhiteColor,
+        title: Text(
+          "Join Room",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-                hintText: "Room Number",
-                hintStyle: TextStyle(color: Colors.grey)),
-            onChanged: (value) {
-              roomNumber = value;
-            },
+          Container(
+            width: double.infinity,
+            height: 250,
+            child: Image.asset('images/Logo-White.png'),
           ),
-          MaterialButton(
-            onPressed: () {
-              checkRoomNumber();
-            },
-            color: Colors.red,
-            child: Text(
-              "Join",
-              style: TextStyle(color: Colors.white),
+          Text(
+            "Enter Room Number",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          SizedBox(
+            height: 15,
+            width: 30,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Pinput(
+              defaultPinTheme: PinTheme(
+                height: 45,
+                decoration: BoxDecoration(
+                  color: PrimaryGreyColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              length: 6,
+              onChanged: (value) {
+                roomNumber = value;
+              },
             ),
-          )
+          ),
+
+          SizedBox(
+            height: 15,
+            width: 30,
+          ),
+          // Align(
+          //   alignment: Alignment.center,
+          //   child: VerificationCode(
+          //     onCompleted: (value) {},
+          //     onEditing: (value) {
+          //       checkRoomNumber();
+          //     },
+          //     length: 6,
+          //     keyboardType: TextInputType.number,
+          //     fillColor: PrimaryGreyColor,
+          //     cursorColor: Colors.black,
+          //     fullBorder: true,
+          //     textStyle: TextStyle(color: Colors.black),
+          //   ),
+          // ),
+          SizedBox(
+            height: 20,
+            width: 30,
+          ),
+          // TextField(
+          //   keyboardType: TextInputType.number,
+          //   decoration: InputDecoration(
+          //       hintText: "Room Number",
+          //       hintStyle: TextStyle(color: Colors.grey)),
+          //   onChanged: (value) {
+          //     roomNumber = value;
+          //   },
+          // ),
+          Text(
+            "Enter The 6 digits Unique Number Of The Room",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            child: roundButton(
+                height: 50,
+                buttontext: "Join Room",
+                color: PrimaryOrangeColor,
+                function: () {
+                  checkRoomNumber();
+                },
+                textColor: Colors.white),
+          ),
         ],
       ),
     );

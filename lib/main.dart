@@ -8,10 +8,12 @@ import 'package:chat_room/screens/testing_firebase_functions.dart';
 import 'package:chat_room/screens/login_screen.dart';
 import 'package:chat_room/screens/registration_screen.dart';
 import 'package:chat_room/screens/welcome_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_room/screens/test.dart';
 
+FirebaseAuth Uauth = FirebaseAuth.instance;
 void main() async {
   // Firebase Connection
   WidgetsFlutterBinding.ensureInitialized();

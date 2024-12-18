@@ -1,8 +1,13 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_literals_to_create_immutables
 
+import 'dart:async';
+
 import 'package:chat_room/components/round_button.dart';
+import 'package:chat_room/main.dart';
+import 'package:chat_room/screens/chat_screen.dart';
 import 'package:chat_room/screens/login_screen.dart';
 import 'package:chat_room/screens/registration_screen.dart';
+import 'package:chat_room/screens/rooms_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -14,8 +19,17 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  alreadySignedIn() async {
+    String? userID = await Uauth.currentUser?.uid;
+    if (await userID != null) {
+      Navigator.pushNamed(context, RoomsScreen.id);
+      print('Navigation Done');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // alreadySignedIn();
     return Scaffold(
       body: Container(
         child: DecoratedBox(

@@ -2,6 +2,7 @@
 
 import 'package:chat_room/components/round_button.dart';
 import 'package:chat_room/constants/Colors.dart';
+import 'package:chat_room/main.dart';
 import 'package:chat_room/screens/chat_screen.dart';
 import 'package:chat_room/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-FirebaseAuth auth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
 String roomNumber = Random().nextInt(999999).toString();
 String? rName;
@@ -48,7 +48,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
 
   void getCurrentUser() async {
     try {
-      final user = await auth.currentUser;
+      final user = await Uauth.currentUser;
       if (user != null) {
         loggedInUser = user;
       }
@@ -60,6 +60,15 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: PrimaryBlueColor,
+        title: Text(
+          "Create Room",
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
       backgroundColor: PrimaryBlueColor,
       body: SafeArea(
         child:
@@ -117,12 +126,13 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
 
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return ChatScreenTest(
+                      return ChatScreen(
                         userId: "${loggedInUser?.uid}",
                         roomNumber: roomNumber,
                       );
                     },
                   ));
+                  CircularProgressIndicator();
                 },
                 textColor: Colors.white),
           )

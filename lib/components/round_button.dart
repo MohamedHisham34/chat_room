@@ -10,17 +10,20 @@ class roundButton extends StatelessWidget {
       required this.color,
       required this.function,
       required this.textColor,
-      this.textSize});
+      this.textSize,
+      this.height});
 
   final Color color;
   final String buttontext;
   final Function function;
   final Color textColor;
   double? textSize;
+  double? height;
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
+      height: height ?? 35,
       elevation: 10,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
