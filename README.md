@@ -2,7 +2,8 @@
 
 Flutter project That Provide Secured Chat Room With 2 Users With Real Time Updates 
 
-![GitHub-Background-2](https://github.com/user-attachments/assets/dc1b0e4c-7ee9-450f-b85e-5f8850784332)
+![GitHub-Background-2](https://github.com/user-attachments/assets/be2c8a92-ebbe-431f-8829-2c99cd4a87a5)
+
 
 ## Getting Started
 
