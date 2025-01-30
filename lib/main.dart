@@ -1,19 +1,22 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:chat_room/firebase_options.dart';
-import 'package:chat_room/screens/create_room_screen.dart';
-import 'package:chat_room/screens/join_room_screen.dart';
-import 'package:chat_room/screens/rooms_screen.dart';
-import 'package:chat_room/screens/testing_firebase_functions.dart';
-import 'package:chat_room/screens/login_screen.dart';
-import 'package:chat_room/screens/registration_screen.dart';
-import 'package:chat_room/screens/welcome_screen.dart';
+import 'package:chat_room/screens/main_app/create_room_screen.dart';
+import 'package:chat_room/screens/main_app/join_room_screen.dart';
+import 'package:chat_room/screens/main_app/rooms_screen.dart';
+import 'package:chat_room/screens/main_app/testing_firebase_functions.dart';
+import 'package:chat_room/screens/authentication/login_screen.dart';
+import 'package:chat_room/screens/authentication/registration_screen.dart';
+import 'package:chat_room/screens/main_app/welcome_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_room/screens/test.dart';
+import 'package:chat_room/screens/main_app/test.dart';
 
-FirebaseAuth Uauth = FirebaseAuth.instance;
+FirebaseAuth uAuth = FirebaseAuth.instance;
+FirebaseFirestore db = FirebaseFirestore.instance;
+
 void main() async {
   // Firebase Connection
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,7 +54,6 @@ class MyApp extends StatelessWidget {
         LoginScreen.id: (context) => LoginScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
 
-        //Chat Screen
         //Test Page
         Testing.id: (context) => Testing(),
         Cardtest.id: (context) => Cardtest(),

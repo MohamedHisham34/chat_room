@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:chat_room/components/round_button.dart';
+import 'package:chat_room/widgets/round_button.dart';
 import 'package:chat_room/constants/Colors.dart';
-import 'package:chat_room/screens/chat_screen.dart';
+import 'package:chat_room/screens/main_app/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -64,12 +64,11 @@ class _JoinRoomScreenState extends State<JoinRoomScreen> {
         //Check If Room Is Full
         if (isCom == false) {
           db.collection("Rooms").doc(roomNumber).set({"isCompleted": true});
-          print('Joined Room Succesfully');
+          print('Joined Room Successfully');
           //Navigate to the Chat Screen
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return ChatScreen(
-                  userId: "${loggedInUser?.uid}", roomNumber: "${roomNumber}");
+              return ChatScreen(roomNumber: "${roomNumber}");
             },
           ));
         } else {

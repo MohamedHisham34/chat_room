@@ -1,10 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_declarations
 
-import 'package:chat_room/components/round_button.dart';
+import 'package:chat_room/widgets/round_button.dart';
 import 'package:chat_room/main.dart';
-import 'package:chat_room/screens/create_room_screen.dart';
-import 'package:chat_room/screens/join_room_screen.dart';
-import 'package:chat_room/screens/welcome_screen.dart';
+import 'package:chat_room/screens/main_app/create_room_screen.dart';
+import 'package:chat_room/screens/main_app/join_room_screen.dart';
+import 'package:chat_room/screens/main_app/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
 class RoomsScreen extends StatelessWidget {
@@ -57,7 +57,7 @@ class RoomsScreen extends StatelessWidget {
                 color: Colors.black,
                 function: () {
                   print("Done");
-                  Uauth.signOut();
+                  uAuth.signOut();
                   Navigator.pushNamed(context, WelcomeScreen.id);
                 },
                 textColor: Colors.white),
