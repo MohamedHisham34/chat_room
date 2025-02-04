@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:chat_room/screens/rooms_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chat_room/screens/main_app/rooms_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;

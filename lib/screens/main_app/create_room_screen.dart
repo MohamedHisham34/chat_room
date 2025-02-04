@@ -1,19 +1,16 @@
 // ignore_for_file: prefer_const_declarations, unnecessary_string_interpolations, prefer_const_constructors
 
-import 'package:chat_room/components/round_button.dart';
+import 'package:chat_room/widgets/round_button.dart';
 import 'package:chat_room/constants/Colors.dart';
 import 'package:chat_room/main.dart';
-import 'package:chat_room/screens/chat_screen.dart';
-import 'package:chat_room/screens/chat_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chat_room/models/room_model.dart';
+import 'package:chat_room/screens/main_app/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-FirebaseFirestore db = FirebaseFirestore.instance;
 String roomNumber = Random().nextInt(999999).toString();
 String? rName;
-User? loggedInUser;
 
 class CreateRoomScreen extends StatefulWidget {
   static final String id = "CreateRoomScreen";
@@ -27,7 +24,6 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
   @override
   void initState() {
     checkRepeatedGenNumber();
-    getCurrentUser();
     super.initState();
   }
 
@@ -44,17 +40,6 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
       },
       onError: (e) => print("Error completing: $e"),
     );
-  }
-
-  void getCurrentUser() async {
-    try {
-      final user = await Uauth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 
   @override
@@ -119,15 +104,14 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
                 buttontext: "Create Room",
                 color: PrimaryOrangeColor,
                 function: () {
-                  db
-                      .collection("Rooms")
-                      .doc(roomNumber)
-                      .set({"rName": rName, "isCompleted": false});
+                  //Room Information ADD To Firebase
+                  RoomClass room =
+                      RoomClass(roomName: rName, isCompleted: false);
+                  db.collection("Rooms").doc(roomNumber).set(room.roomData());
 
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
                       return ChatScreen(
-                        userId: "${loggedInUser?.uid}",
                         roomNumber: roomNumber,
                       );
                     },

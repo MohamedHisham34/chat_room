@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_declarations, prefer_const_constructors
 
 import 'package:chat_room/constants/text_field_decoration.dart';
-import 'package:chat_room/screens/rooms_screen.dart';
+import 'package:chat_room/constants/wave_clipper.dart';
+import 'package:chat_room/screens/main_app/rooms_screen.dart';
+import 'package:chat_room/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -102,18 +104,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   //User Login Function
                   onPressed: () async {
                     try {
-                      final loginUser = await FirebaseAuth.instance
-                          .signInWithEmailAndPassword(
-                              email: email, password: password);
-                      print("User Login Successfully");
-                      //Navigate to Chat Page
-                      Navigator.pushNamed(context, RoomsScreen.id);
-                    } on FirebaseAuthException catch (e) {
-                      if (e.code == 'user-not-found') {
-                        print('No user found for that email.');
-                      } else if (e.code == 'wrong-password') {
-                        print('Wrong password provided for that user.');
+                      User? user = await authService.signIn(email, password);
+                      if (user != null) {
+                        print('Signed in as: ${user.email}');
+                        Navigator.pushNamed(context, RoomsScreen.id);
+                      } else {
+                        print('Sign-in failed.');
                       }
+                    } catch (e) {
+                      print(e);
                     }
                   },
                   minWidth: 200.0,
@@ -149,29 +148,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-}
-
-class WaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height - 50);
-    var firstControlPoint = Offset(size.width / 4, size.height);
-    var firstEndPoint = Offset(size.width / 2, size.height - 50);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-
-    var secondControlPoint = Offset(size.width * 3 / 4, size.height - 100);
-    var secondEndPoint = Offset(size.width, size.height - 50);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, 0);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
