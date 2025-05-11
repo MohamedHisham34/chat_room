@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:chat_room/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -9,6 +11,8 @@ Stream<DocumentSnapshot> roomMembersStream({required String roomNumber}) {
 }
 
 class RoomClass {
+  static const firebaseField_roomName = "roomNumber";
+  static const firebaseField_isCompleted = "isCompleted";
   final String? roomName;
   final bool? isCompleted;
 
@@ -18,6 +22,9 @@ class RoomClass {
   });
 
   Map<String, dynamic> roomData() {
-    return {"roomNumber": roomName, "isCompleted": isCompleted};
+    return {
+      firebaseField_roomName: roomName,
+      firebaseField_isCompleted: isCompleted
+    };
   }
 }

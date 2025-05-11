@@ -13,6 +13,10 @@ Stream<QuerySnapshot> messageStream({required String roomNumber}) {
 }
 
 class MessageModel {
+  static const firebaseField_messageContent = "messageContent";
+  static const firebaseField_sender = "sender";
+  static const firebaseField_timestamp = "timestamp";
+
   final String? messageContent;
   final String? sender;
   final FieldValue? timestamp;
@@ -25,9 +29,9 @@ class MessageModel {
 
   Map<String, dynamic> messageData() {
     return {
-      "messageContent": messageContent,
-      "sender": sender,
-      "timestamp": timestamp
+      firebaseField_messageContent: messageContent,
+      firebaseField_sender: sender,
+      firebaseField_timestamp: timestamp
     };
   }
 }

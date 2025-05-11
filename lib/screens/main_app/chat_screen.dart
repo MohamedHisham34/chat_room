@@ -99,8 +99,9 @@ class _ChatScreenState extends State<ChatScreen> {
               ReusableStreamBuilder(
                 stream: roomMembersStream(roomNumber: roomNumber),
                 content: (snapshot) {
-                  bool? isCompleted = snapshot.data?.get('isCompleted');
-
+                  bool? isCompleted =
+                      snapshot.data?.get(RoomClass.firebaseField_isCompleted);
+                      
                   return Container(
                     child: Text(
                       isCompleted == true ? "Members 2/2" : "Members 1/2",

@@ -4,17 +4,14 @@ import 'package:chat_room/firebase_options.dart';
 import 'package:chat_room/screens/main_app/create_room_screen.dart';
 import 'package:chat_room/screens/main_app/join_room_screen.dart';
 import 'package:chat_room/screens/authentication/login_screen.dart';
-import 'package:chat_room/screens/main_app/create_room_screen.dart';
-import 'package:chat_room/screens/main_app/join_room_screen.dart';
+
 import 'package:chat_room/screens/main_app/rooms_screen.dart';
 
-import 'package:chat_room/screens/authentication/login_screen.dart';
 import 'package:chat_room/screens/authentication/registration_screen.dart';
 import 'package:chat_room/screens/main_app/welcome_screen.dart';
-import 'package:chat_room/screens/authentication/registration_screen.dart';
-import 'package:chat_room/screens/main_app/rooms_screen.dart';
+
 import 'package:chat_room/screens/testing_firebase_functions.dart';
-import 'package:chat_room/screens/main_app/welcome_screen.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
