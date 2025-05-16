@@ -40,6 +40,8 @@ dependencies:
   cloud_firestore: ^5.5.0
   chat_bubbles: ^1.6.0
   pinput: ^5.0.0
+  zego_uikit_prebuilt_call: ^4.16.28
+  zego_uikit_signaling_plugin: ^2.8.12
   
 
 dev_dependencies:

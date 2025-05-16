@@ -8,6 +8,8 @@ import 'package:chat_room/screens/authentication/login_screen.dart';
 import 'package:chat_room/screens/main_app/rooms_screen.dart';
 
 import 'package:chat_room/screens/authentication/registration_screen.dart';
+import 'package:chat_room/screens/main_app/test_calls.dart';
+import 'package:chat_room/screens/main_app/test_fields.dart';
 import 'package:chat_room/screens/main_app/welcome_screen.dart';
 
 import 'package:chat_room/screens/testing_firebase_functions.dart';
@@ -16,18 +18,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 
 FirebaseAuth uAuth = FirebaseAuth.instance;
 FirebaseFirestore db = FirebaseFirestore.instance;
 
+final GlobalKey<NavigatorState> navigatorKey =  GlobalKey<NavigatorState>();
+
 void main() async {
-  // Firebase Connection
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  /// 1.1.2: set navigator key to ZegoUIKitPrebuiltCallInvitationService
+  ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
+
+  // call the useSystemCallingUI
+  ZegoUIKit().initLog().then((value) {
+    ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
+      [ZegoUIKitSignalingPlugin()],
+    );
+
+    runApp(MyApp());
+  });
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -35,6 +53,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       //Test Firebase Connection
       home: FutureBuilder(
         future: Firebase.initializeApp(),
@@ -48,7 +67,7 @@ class MyApp extends StatelessWidget {
           return Text("Loading");
         },
       ),
-      initialRoute: WelcomeScreen.id,
+      initialRoute: TestFields.id,
       routes: {
         //WelcomeScreen Route
         WelcomeScreen.id: (context) => WelcomeScreen(),
@@ -66,6 +85,8 @@ class MyApp extends StatelessWidget {
         CreateRoomScreen.id: (context) => CreateRoomScreen(),
         // Join Room
         JoinRoomScreen.id: (context) => JoinRoomScreen(),
+        
+        TestFields.id: (context) => TestFields(),
       },
     );
   }
